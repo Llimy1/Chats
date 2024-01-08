@@ -1,0 +1,37 @@
+/* 헤더와 로고 스타일링 */
+.main_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.logo {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+/* 사용자 인터페이스 컨트롤 스타일링 */
+.user-controls {
+    display: flex;
+    align-items: center;
+}
+.user-controls > div {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* 아이콘 스타일링 */
+.icon {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.icon-img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+/* 추가 스타일링 */
