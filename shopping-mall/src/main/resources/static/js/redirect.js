@@ -3,11 +3,11 @@ function redirectToLogin() {
 }
 
 function redirectToSignup() {
-    window.location.href = "html/signup.html";
+    window.location.href = "signup.html";
 }
 
 function redirectToPasswordSearch() {
-    window.location.href = "html/passwordSearch.html";
+    window.location.href = "passwordSearch.html";
 }
 
 function redirectToHome() {
