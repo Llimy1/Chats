@@ -4,9 +4,9 @@ public enum Role {
     USER("ROLE_USER"),
     SELLER("ROLE_SELLER");
 
-    private String authority;
+    private final String description;
 
-    Role(String authority) {
-        this.authority = authority;
+    Role(String description) {
+        this.description = description;
     }
 }

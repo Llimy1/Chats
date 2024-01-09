@@ -33,9 +33,19 @@ public class Address {
     private User user;
 
     @Builder
-    public Address(String postCode, String mainAddress, String detailAddress) {
+    public Address(String postCode, String mainAddress, String detailAddress, User user) {
         this.postCode = postCode;
         this.mainAddress = mainAddress;
         this.detailAddress = detailAddress;
+        this.user = user;
+    }
+
+    public static Address createAddress(String postCode, String mainAddress, String detailAddress, User user) {
+        return Address.builder()
+                .postCode(postCode)
+                .mainAddress(mainAddress)
+                .detailAddress(detailAddress)
+                .user(user)
+                .build();
     }
 }
