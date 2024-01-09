@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: local
     include:
       - db
   jpa:
@@ -16,5 +16,6 @@ spring:
 logging:
   level:
     org.hibernate.type: trace                   # ???? ??? ????? ? ? ?? ?? ??
-    org.hibernate.SQL: debug                    # logger? ?? ?????? ?? SQL
     org.hibernate.type.descriptor.sql: trace    # sql? ? ?? Parameter? ???.
+
+
