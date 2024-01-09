@@ -9,20 +9,20 @@
 <body>
 <div class="signup-container">
     <h1 class="signup-title">회원가입</h1>
-    <form class="signup-form">
+    <form class="signup-form" id="signupForm">
         <!-- 닉네임 입력 필드와 중복 확인 버튼 -->
         <div class="form-row">
-            <input type="text" id="nickname" placeholder="닉네임" required>
-            <button type="button" class="check-button">중복 확인</button>
+            <input type="text" id="nickname" name="nickname" placeholder="닉네임" required>
+            <button type="button" class="check-button nickname">중복 확인</button>
         </div>
         <!-- 이메일 입력 필드와 중복 확인 버튼 -->
         <div class="form-row">
-            <input type="email" id="email" placeholder="이메일" required>
-            <button type="button" class="check-button">중복 확인</button>
+            <input type="email" id="email" name="email" placeholder="이메일" required>
+            <button type="button" class="check-button email">중복 확인</button>
         </div>
         <!-- 비밀번호 입력 필드 -->
         <div class="form-row password-row">
-            <input type="password" id="password" placeholder="비밀번호" required oninput="checkPasswordRequirements()">
+            <input type="password" id="password" name="password" placeholder="비밀번호" required oninput="checkPasswordRequirements()">
         </div>
         <!-- 비밀번호 요구 사항 -->
         <div class="password-requirements">
@@ -43,14 +43,14 @@
         <!-- 주소 입력 부분 -->
         <div class="address-inputs">
             <div class="address-input-row">
-                <input type="text" id="postcode" placeholder="우편번호" required>
+                <input type="text" id="postcode" name="postCode" placeholder="우편번호" required>
                 <button type="button" class="postcode-button" onclick="daumPostcode()">우편번호 찾기</button>
             </div>
             <div class="address-input-row">
-                <input type="text" id="address" placeholder="주소" required>
+                <input type="text" id="address" name="mainAddress" placeholder="주소" required>
             </div>
             <div class="address-input-row">
-                <input type="text" id="detailAddress" placeholder="상세주소" required>
+                <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required>
             </div>
 <!--            <div class="address-input-row">-->
 <!--                <input type="text" id="extraAddress" placeholder="참고항목">-->
@@ -58,15 +58,16 @@
         </div>
         <!-- 전화번호 입력 필드 -->
         <div class="form-row">
-            <input type="tel" id="phone" placeholder="전화번호" required>
+            <input type="tel" id="phone" name="phoneNumber" placeholder="전화번호" required
+                   maxlength="11" minlength="11" title="11자리 숫자를 입력해주세요.">
         </div>
         <!-- 회원가입 버튼 -->
         <div class="form-row">
-            <button type="submit" class="signup-button">회원가입</button>
+            <button type="submit" id="signupButton" class="signup-button">회원가입</button>
         </div>
     </form>
 </div>
-<script src="/js/password.js"></script>
+<script src="/js/signup.js"></script>
 <script src="/js/kakaoAddress.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
