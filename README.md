@@ -1,4 +1,4 @@
-# Shopping Mall Project
+# Chats Project
 
 ### Project Setting
 - Frontend : HTML, CSS, JavaScript
