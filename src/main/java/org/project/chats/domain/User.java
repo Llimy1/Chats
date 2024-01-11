@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     @Builder
     public User(String nickname, String email, String password, String phoneNumber, Role role) {
@@ -51,11 +52,11 @@ public class User {
                 .build();
     }
 
-    public String getRoleKey() {
+    public String getRoleDescription() {
         return this.role.getDescription();
     }
 
     public void passwordEncoder(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
+        this.password = passwordEncoder.encode(password);
     }
 }
