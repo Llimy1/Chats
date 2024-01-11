@@ -1,6 +1,7 @@
-package org.project.shoppingmall.exception;
+package org.project.chats.exception;
 
-import org.project.shoppingmall.type.ErrorMessage;
+
+import org.project.chats.type.ErrorMessage;
 
 public class Duplication extends RuntimeException {
     public Duplication(ErrorMessage message) {

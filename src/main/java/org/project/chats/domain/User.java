@@ -1,4 +1,4 @@
-package org.project.shoppingmall.domain;
+package org.project.chats.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,7 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.project.shoppingmall.type.Role;
+import org.project.chats.type.Role;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

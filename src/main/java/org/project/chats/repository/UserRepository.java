@@ -1,6 +1,8 @@
-package org.project.shoppingmall.repository;
+package org.project.chats.repository;
 
-import org.project.shoppingmall.domain.User;
+
+
+import org.project.chats.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

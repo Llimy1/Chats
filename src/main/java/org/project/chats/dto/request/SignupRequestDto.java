@@ -1,4 +1,4 @@
-package org.project.shoppingmall.dto.request;
+package org.project.chats.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

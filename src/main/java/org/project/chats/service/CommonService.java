@@ -1,7 +1,7 @@
-package org.project.shoppingmall.service;
+package org.project.chats.service;
 
-import org.project.shoppingmall.dto.common.CommonResponseDto;
-import org.project.shoppingmall.type.ResponseStatus;
+import org.project.chats.dto.common.CommonResponseDto;
+import org.project.chats.type.ResponseStatus;
 import org.springframework.stereotype.Service;
 
 @Service

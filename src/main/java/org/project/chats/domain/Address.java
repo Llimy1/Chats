@@ -1,4 +1,4 @@
-package org.project.shoppingmall.domain;
+package org.project.chats.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

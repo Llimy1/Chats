@@ -1,6 +1,7 @@
-package org.project.shoppingmall.repository;
+package org.project.chats.repository;
 
-import org.project.shoppingmall.domain.Address;
+
+import org.project.chats.domain.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {

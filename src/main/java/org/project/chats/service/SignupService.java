@@ -1,14 +1,14 @@
-package org.project.shoppingmall.service;
+package org.project.chats.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.project.shoppingmall.domain.Address;
-import org.project.shoppingmall.domain.User;
-import org.project.shoppingmall.dto.request.SignupRequestDto;
-import org.project.shoppingmall.exception.Duplication;
-import org.project.shoppingmall.repository.AddressRepository;
-import org.project.shoppingmall.repository.UserRepository;
-import org.project.shoppingmall.type.ErrorMessage;
+import org.project.chats.domain.Address;
+import org.project.chats.domain.User;
+import org.project.chats.dto.request.SignupRequestDto;
+import org.project.chats.exception.Duplication;
+import org.project.chats.repository.AddressRepository;
+import org.project.chats.repository.UserRepository;
+import org.project.chats.type.ErrorMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

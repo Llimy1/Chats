@@ -1,15 +1,14 @@
-package org.project.shoppingmall.controller;
+package org.project.chats.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.project.shoppingmall.dto.common.CommonResponseDto;
-import org.project.shoppingmall.dto.request.SignupRequestDto;
-import org.project.shoppingmall.service.CommonService;
-import org.project.shoppingmall.service.SignupService;
-import org.project.shoppingmall.type.ErrorMessage;
-import org.project.shoppingmall.type.ResponseStatus;
-import org.project.shoppingmall.type.SuccessMessage;
+import org.project.chats.dto.common.CommonResponseDto;
+import org.project.chats.dto.request.SignupRequestDto;
+import org.project.chats.service.CommonService;
+import org.project.chats.service.SignupService;
+import org.project.chats.type.ResponseStatus;
+import org.project.chats.type.SuccessMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -1,4 +1,4 @@
-package org.project.shoppingmall.type;
+package org.project.chats.type;
 
 public enum Role {
     USER("ROLE_USER"),

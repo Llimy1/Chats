@@ -1,4 +1,4 @@
-package org.project.shoppingmall.service;
+package org.project.chats.service;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -8,12 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.project.shoppingmall.domain.Address;
-import org.project.shoppingmall.domain.User;
-import org.project.shoppingmall.dto.request.SignupRequestDto;
-import org.project.shoppingmall.exception.Duplication;
-import org.project.shoppingmall.repository.AddressRepository;
-import org.project.shoppingmall.repository.UserRepository;
+import org.project.chats.domain.Address;
+import org.project.chats.domain.User;
+import org.project.chats.dto.request.SignupRequestDto;
+import org.project.chats.exception.Duplication;
+import org.project.chats.repository.AddressRepository;
+import org.project.chats.repository.UserRepository;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;

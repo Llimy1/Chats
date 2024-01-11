@@ -1,4 +1,4 @@
-package org.project.shoppingmall.dto.common;
+package org.project.chats.dto.common;
 
 import lombok.Builder;
 import lombok.Getter;

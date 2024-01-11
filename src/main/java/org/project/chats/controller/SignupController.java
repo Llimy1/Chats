@@ -1,14 +1,12 @@
-package org.project.shoppingmall.controller;
+package org.project.chats.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.project.shoppingmall.dto.common.CommonResponseDto;
-import org.project.shoppingmall.dto.request.SignupRequestDto;
-import org.project.shoppingmall.repository.UserRepository;
-import org.project.shoppingmall.service.CommonService;
-import org.project.shoppingmall.service.SignupService;
-import org.project.shoppingmall.type.SuccessMessage;
+import org.project.chats.dto.common.CommonResponseDto;
+import org.project.chats.dto.request.SignupRequestDto;
+import org.project.chats.service.CommonService;
+import org.project.chats.service.SignupService;
+import org.project.chats.type.SuccessMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
