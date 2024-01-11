@@ -1,19 +1,22 @@
 package org.project.chats.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.project.chats.dto.common.CommonResponseDto;
 import org.project.chats.dto.request.SignupRequestDto;
 import org.project.chats.service.CommonService;
 import org.project.chats.service.SignupService;
 import org.project.chats.type.ResponseStatus;
 import org.project.chats.type.SuccessMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -23,20 +26,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SignupController.class)
+@DisplayName("회원 가입 컨트롤러 테스트")
+@ExtendWith(MockitoExtension.class)
 class SignupControllerTest {
 
-    @MockBean
+    @Mock
     private SignupService signupService;
 
-    @MockBean
+    @Mock
     private CommonService commonService;
 
-    @Autowired
-    private MockMvc mvc;
+    @InjectMocks
+    private SignupController signupController;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private MockMvc mvc;
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeEach
+    public void setUp() {
+        mvc = MockMvcBuilders.standaloneSetup(signupController).build();
+    }
+
+
 
     private SignupRequestDto signupRequestDto() {
         return SignupRequestDto.builder()
@@ -44,9 +55,6 @@ class SignupControllerTest {
                 .email("abcd@mail.com")
                 .password("12345a@@")
                 .phoneNumber("01011111111")
-                .postCode("12345")
-                .mainAddress("서울시")
-                .detailAddress("집")
                 .build();
     }
 

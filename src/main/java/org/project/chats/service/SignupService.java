@@ -2,11 +2,9 @@ package org.project.chats.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.project.chats.domain.Address;
 import org.project.chats.domain.User;
 import org.project.chats.dto.request.SignupRequestDto;
 import org.project.chats.exception.Duplication;
-import org.project.chats.repository.AddressRepository;
 import org.project.chats.repository.UserRepository;
 import org.project.chats.type.ErrorMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignupService {
 
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -29,11 +26,6 @@ public class SignupService {
         user.passwordEncoder(passwordEncoder);
 
         User userSave = userRepository.save(user);
-
-        Address address = Address.createAddress(signupRequestDto.getPostCode(), signupRequestDto.getMainAddress(),
-                signupRequestDto.getDetailAddress(), user);
-
-        addressRepository.save(address);
 
         log.debug("회원가입 성공");
 

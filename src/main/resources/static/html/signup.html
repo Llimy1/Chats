@@ -39,23 +39,6 @@
         </div>
         <!-- 비밀번호 일치 여부 메시지 -->
         <div id="password-match-message"></div>
-        <!-- 주소 입력 필드 -->
-        <!-- 주소 입력 부분 -->
-        <div class="address-inputs">
-            <div class="address-input-row">
-                <input type="text" id="postcode" name="postCode" placeholder="우편번호" required>
-                <button type="button" class="postcode-button" onclick="daumPostcode()">우편번호 찾기</button>
-            </div>
-            <div class="address-input-row">
-                <input type="text" id="address" name="mainAddress" placeholder="주소" required>
-            </div>
-            <div class="address-input-row">
-                <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required>
-            </div>
-<!--            <div class="address-input-row">-->
-<!--                <input type="text" id="extraAddress" placeholder="참고항목">-->
-<!--            </div>-->
-        </div>
         <!-- 전화번호 입력 필드 -->
         <div class="form-row">
             <input type="tel" id="phone" name="phoneNumber" placeholder="전화번호" required
@@ -68,7 +51,6 @@
     </form>
 </div>
 <script src="/js/signup.js"></script>
-<script src="/js/kakaoAddress.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>

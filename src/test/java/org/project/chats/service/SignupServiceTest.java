@@ -8,12 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.project.chats.domain.Address;
 import org.project.chats.domain.User;
 import org.project.chats.dto.request.SignupRequestDto;
 import org.project.chats.exception.Duplication;
-import org.project.chats.repository.AddressRepository;
 import org.project.chats.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+@DisplayName("회원 가입 컨트롤러 테스트")
 @ExtendWith(MockitoExtension.class)
 class SignupServiceTest {
 
@@ -31,7 +32,7 @@ class SignupServiceTest {
     UserRepository userRepository;
 
     @Mock
-    AddressRepository addressRepository;
+    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     SignupService signupService;
@@ -40,14 +41,14 @@ class SignupServiceTest {
 
     @BeforeEach
     void setUp() {
+
+        passwordEncoder = new BCryptPasswordEncoder();
+
         signupRequestDto = SignupRequestDto.builder()
                 .nickname("min")
                 .email("abcd@mail.com")
                 .password("12345a@@")
                 .phoneNumber("01011111111")
-                .postCode("12345")
-                .mainAddress("서울시")
-                .detailAddress("집")
                 .build();
     }
 
@@ -60,22 +61,12 @@ class SignupServiceTest {
                 signupRequestDto.getEmail(),
                 signupRequestDto.getPassword(),
                 signupRequestDto.getPhoneNumber());
+        user.passwordEncoder(passwordEncoder);
 
         given(userRepository.save(any()))
                 .willReturn(user);
 
         ReflectionTestUtils.setField(user, "id", 1L);
-
-        Address address = Address.createAddress(
-                signupRequestDto.getPostCode(),
-                signupRequestDto.getMainAddress(),
-                signupRequestDto.getDetailAddress(),
-                user);
-
-        given(addressRepository.save(any()))
-                .willReturn(address);
-
-        ReflectionTestUtils.setField(address, "id", 1L);
 
         // when
         Long userId = signupService.signup(signupRequestDto);
