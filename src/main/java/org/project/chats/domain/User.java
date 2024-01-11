@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.project.chats.type.Role;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -48,5 +49,13 @@ public class User {
                 .phoneNumber(phoneNumber)
                 .role(Role.USER)
                 .build();
+    }
+
+    public String getRoleKey() {
+        return this.role.getDescription();
+    }
+
+    public void passwordEncoder(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 }

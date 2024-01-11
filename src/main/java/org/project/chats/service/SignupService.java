@@ -9,6 +9,7 @@ import org.project.chats.exception.Duplication;
 import org.project.chats.repository.AddressRepository;
 import org.project.chats.repository.UserRepository;
 import org.project.chats.type.ErrorMessage;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +20,13 @@ public class SignupService {
 
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    // TODO : 이메일 인증, 인증 번호 확인, 닉네임 중복 확인
     @Transactional
     public Long signup(SignupRequestDto signupRequestDto) {
         User user = User.createUser(signupRequestDto.getNickname(), signupRequestDto.getEmail(),
                 signupRequestDto.getPassword(), signupRequestDto.getPhoneNumber());
+        user.passwordEncoder(passwordEncoder);
 
         User userSave = userRepository.save(user);
 

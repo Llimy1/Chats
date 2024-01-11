@@ -4,3 +4,8 @@ spring:
     password: ${DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DATABASE_URL}/${DATABASE_NAME}?characterEncoding=UTF-8&characterSetResults=UTF-8
+
+  data:
+    redis:
+      host: ${REDIS_USERNAME}
+      port: ${REDIS_PORT}
