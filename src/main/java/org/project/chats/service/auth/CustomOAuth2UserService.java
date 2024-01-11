@@ -64,7 +64,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         userAttribute.put("exist", true);
         // 회원의 권한과, 회원속성, 속성이름을 이용해 DefaultOAuth2User 객체를 생성해 반환한다.
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(findUser.get().getRoleKey())
+                Collections.singleton(new SimpleGrantedAuthority(findUser.get().getRoleDescription())
                 ), userAttribute, "email");
     }
 }
