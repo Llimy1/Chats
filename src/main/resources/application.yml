@@ -3,6 +3,9 @@ spring:
     active: local
     include:
       - db
+      - oauth
+      - jwt
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -17,5 +20,3 @@ logging:
   level:
     org.hibernate.type: trace                   # ???? ??? ????? ? ? ?? ?? ??
     org.hibernate.type.descriptor.sql: trace    # sql? ? ?? Parameter? ???.
-
-

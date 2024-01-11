@@ -1,5 +1,8 @@
 package org.project.chats.type;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
     USER("ROLE_USER"),
     SELLER("ROLE_SELLER");
