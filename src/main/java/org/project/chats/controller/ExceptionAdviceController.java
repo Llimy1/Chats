@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.project.chats.dto.common.CommonResponseDto;
 import org.project.chats.exception.Duplication;
 import org.project.chats.exception.JwtException;
+import org.project.chats.exception.LoginException;
 import org.project.chats.exception.NotFoundException;
 import org.project.chats.service.CommonService;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,14 @@ public class ExceptionAdviceController {
     public ResponseEntity<Object> illegalAccessException(JwtException jep) {
         log.error("handleIllegalAccessError = {}", jep.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(jep.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(commonResponseDto);
+    }
+
+    // LoginException
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<Object> loginException(LoginException lep) {
+        log.error("handleLoginException = {}", lep.getMessage());
+        CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(lep.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponseDto);
     }
     

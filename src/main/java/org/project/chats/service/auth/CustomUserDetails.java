@@ -16,14 +16,12 @@ import java.util.Collection;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomUserDetails implements UserDetails {
 
-    private Long userId;
     private String email;
     private String password;
     private String role;
 
     @Builder
-    public CustomUserDetails(Long userId, String email, String password, String role) {
-        this.userId = userId;
+    public CustomUserDetails(String email, String password, String role) {
         this.email = email;
         this.password = password;
         this.role = role;
