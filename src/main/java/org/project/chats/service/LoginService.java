@@ -3,7 +3,7 @@ package org.project.chats.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.domain.User;
-import org.project.chats.dto.GeneratedTokenDto;
+import org.project.chats.dto.response.GeneratedTokenDto;
 import org.project.chats.dto.request.LoginRequestDto;
 import org.project.chats.exception.LoginException;
 import org.project.chats.exception.NotFoundException;
@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,8 +44,10 @@ public class LoginService {
 
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
-            log.debug("유저를 찾아옴");
+            log.debug("토큰 생성");
+
             return jwtUtil.generatedToken(email, user.getRoleDescription());
+
         } catch (Exception e) {
             throw new LoginException(ErrorMessage.LOGIN_EMAIL_OR_PASSWORD_INACCURATE);
         }

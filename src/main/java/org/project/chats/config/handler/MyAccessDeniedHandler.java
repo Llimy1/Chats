@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        log.error(accessDeniedException.getMessage());
+        log.warn(accessDeniedException.getMessage());
         response.setCharacterEncoding("utf-8");
         response.sendError(403, "권한이 없습니다.");
     }

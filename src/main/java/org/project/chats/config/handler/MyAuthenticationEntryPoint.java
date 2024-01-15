@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        log.error(authException.getMessage());
+        log.warn(authException.getMessage());
         response.setCharacterEncoding("utf-8");
         response.sendError(401, "잘못된 접근 입니다.");
     }

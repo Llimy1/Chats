@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.project.chats.domain.User;
-import org.project.chats.dto.GeneratedTokenDto;
+import org.project.chats.dto.response.GeneratedTokenDto;
 import org.project.chats.dto.request.LoginRequestDto;
 import org.project.chats.exception.LoginException;
 import org.project.chats.repository.UserRepository;
@@ -44,6 +44,9 @@ class LoginServiceTest {
     private AuthenticationManager authenticationManager;
 
     @Mock
+    private RefreshTokenService refreshTokenService;
+
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
@@ -51,9 +54,9 @@ class LoginServiceTest {
 
     private User user;
 
-    private final String PREFIX = "Bearer ";
-    private final String ACCESS_TOKEN = "accessToken";
-    private final String REFRESH_TOKEN = "refreshToken";
+    private static final String PREFIX = "Bearer ";
+    private static final String ACCESS_TOKEN = "accessToken";
+    private static final String REFRESH_TOKEN = "refreshToken";
 
     @BeforeEach
     public void setUp() {
@@ -89,12 +92,12 @@ class LoginServiceTest {
         given(jwtUtil.generatedToken(anyString(), anyString()))
                 .willReturn(new GeneratedTokenDto(ACCESS_TOKEN, REFRESH_TOKEN));
         //when
-        GeneratedTokenDto result = loginService.login(loginRequestDto);
+        GeneratedTokenDto generatedTokenDto = loginService.login(loginRequestDto);
 
         //then
-        assertThat(result).isNotNull();
-        assertThat(result.getAccessToken()).isEqualTo(PREFIX + ACCESS_TOKEN);
-        assertThat(result.getRefreshToken()).isEqualTo(PREFIX + REFRESH_TOKEN);
+        assertThat(generatedTokenDto).isNotNull();
+        assertThat(generatedTokenDto.getAccessToken()).isEqualTo(PREFIX + ACCESS_TOKEN);
+        assertThat(generatedTokenDto.getRefreshToken()).isEqualTo(PREFIX + REFRESH_TOKEN);
         verify(userRepository).findByEmail(email);
         verify(authenticationManager).authenticate(new UsernamePasswordAuthenticationToken(email, password));
         verify(jwtUtil).generatedToken(email, Role.USER.getDescription());

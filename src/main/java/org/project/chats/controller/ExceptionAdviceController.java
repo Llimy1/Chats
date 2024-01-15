@@ -23,7 +23,7 @@ public class ExceptionAdviceController {
     // Duplication Exception
     @ExceptionHandler(Duplication.class)
     public ResponseEntity<Object> duplicationException(Duplication ndi) {
-        log.error("handleDuplicationException = {}", ndi.getMessage());
+        log.warn("handleDuplicationException = {}", ndi.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(ndi.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(commonResponseDto);
     }
@@ -31,23 +31,31 @@ public class ExceptionAdviceController {
     // NotFound Exception
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> notFoundException(NotFoundException nfe) {
-        log.error("handleNotFoundException = {}", nfe.getMessage());
+        log.warn("handleNotFoundException = {}", nfe.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(nfe.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(commonResponseDto);
+    }
+
+    // IllegalArgumentException
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> illegalArgumentException(IllegalArgumentException iag) {
+        log.warn("handleIllegalArgumentException = {}", iag.getMessage());
+        CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(iag.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponseDto);
     }
 
     // IllegalAccessError
     @ExceptionHandler(IllegalAccessError.class)
     public ResponseEntity<Object> illegalAccessException(IllegalAccessError iae) {
-        log.error("handleIllegalAccessError = {}", iae.getMessage());
+        log.warn("handleIllegalAccessError = {}", iae.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(iae.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(commonResponseDto);
     }
 
     // JwtException
     @ExceptionHandler(JwtException.class)
-    public ResponseEntity<Object> illegalAccessException(JwtException jep) {
-        log.error("handleIllegalAccessError = {}", jep.getMessage());
+    public ResponseEntity<Object> jwtException(JwtException jep) {
+        log.warn("handleIllegalAccessError = {}", jep.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(jep.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(commonResponseDto);
     }
@@ -55,7 +63,7 @@ public class ExceptionAdviceController {
     // LoginException
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<Object> loginException(LoginException lep) {
-        log.error("handleLoginException = {}", lep.getMessage());
+        log.warn("handleLoginException = {}", lep.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(lep.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponseDto);
     }
@@ -63,7 +71,7 @@ public class ExceptionAdviceController {
     // Exception
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> exception(Exception e) {
-        log.error("handleAllException", e);
+        log.error("handleAllException = {}", e.getMessage());
         CommonResponseDto<Object> commonResponseDto = commonService.errorResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(commonResponseDto);
     }

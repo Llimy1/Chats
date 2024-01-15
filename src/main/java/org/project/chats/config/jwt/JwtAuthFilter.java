@@ -70,6 +70,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getRequestURI().contains("/token");
+    }
+
     public Authentication getAuthentication(SecurityUserDto securityUserDto) {
         return new UsernamePasswordAuthenticationToken(securityUserDto, null,
                 List.of(new SimpleGrantedAuthority(securityUserDto.getRole().getDescription())));

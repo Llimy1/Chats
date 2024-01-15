@@ -40,7 +40,7 @@ class SignupControllerTest {
     private SignupController signupController;
 
     private MockMvc mvc;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     public void setUp() {
@@ -84,11 +84,11 @@ class SignupControllerTest {
         mvc.perform(post("/signup")
                 .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("status")
+                .andExpect(jsonPath("$.status")
                         .value(ResponseStatus.SUCCESS.getDescription()))
-                .andExpect(jsonPath("message")
+                .andExpect(jsonPath("$.message")
                         .value(SuccessMessage.SIGNUP_SUCCESS.getDescription()))
-                .andExpect(jsonPath("data")
+                .andExpect(jsonPath("$.data")
                         .value(userId))
                 .andDo(print());
     }

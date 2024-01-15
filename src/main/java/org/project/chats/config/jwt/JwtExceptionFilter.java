@@ -22,7 +22,8 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (JwtException e) {
-            log.error("Token 값이 올바르지 않습니다.");
+            log.info("JwtExceptionFilter accessToken = {}", request.getHeader("Authorization"));
+            log.warn("Token 값이 올바르지 않습니다.");
             response.setCharacterEncoding("utf-8");
             response.sendError(401, "Token이 올바르지 않습니다.");
         }
