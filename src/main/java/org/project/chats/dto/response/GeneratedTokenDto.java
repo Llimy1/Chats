@@ -1,4 +1,4 @@
-package org.project.chats.dto;
+package org.project.chats.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Builder;

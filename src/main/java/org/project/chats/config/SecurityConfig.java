@@ -43,7 +43,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-                        .requestMatchers("/signup", "/check/nickname", "/check/email").permitAll())
+                        .requestMatchers("**").permitAll())
 
                 .formLogin(AbstractHttpConfigurer::disable)
 

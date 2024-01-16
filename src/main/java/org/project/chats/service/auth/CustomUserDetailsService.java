@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CustomUserDetailService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -24,9 +24,9 @@ public class CustomUserDetailService implements UserDetailsService {
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
 
         return CustomUserDetails.builder()
-                .userId(user.getId())
                 .email(user.getEmail())
-                .role(user.getRoleKey())
+                .password(user.getPassword())
+                .role(user.getRoleDescription())
                 .build();
     }
 }

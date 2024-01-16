@@ -49,19 +49,43 @@ body {
 .login-button:hover {
     background-color: #555;
 }
+/* 기존 CSS 스타일은 유지 */
+
+.social-login {
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-wrap: wrap; /* 버튼이 여러 줄로 나누어지도록 설정 */
+    justify-content: center; /* 중앙 정렬 */
+    gap: 10px; /* 버튼 사이의 간격 */
+    margin-top: 20px; /* 상단 여백 추가 */
+}
 
 .social-button {
     background-color: #FEE500; /* 카카오 색상 */
     border: none;
     border-radius: 4px;
     padding: 10px;
-    width: calc(50% - 10px);
-    margin: 5px;
+    width: 100%; /* 전체 너비 사용 */
     cursor: pointer;
+    text-align: center; /* 텍스트 중앙 정렬 */
+    color: black; /* 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-size: 14px; /* 폰트 크기 설정 */
 }
 
 .social-button.naver {
     background-color: #03C75A; /* 네이버 색상 */
+}
+
+.social-button.google {
+    background-color: #f5f5f5; /* 구글 색상 */
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 600px) {
+    .social-button {
+        width: 100%; /* 모바일 화면에서는 버튼 너비를 100%로 설정 */
+        margin-bottom: 10px; /* 버튼 사이의 여백 추가 */
+    }
 }
 
 .additional-links {

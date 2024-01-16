@@ -8,9 +8,8 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.config.jwt.JwtProperties;
-import org.project.chats.dto.GeneratedTokenDto;
+import org.project.chats.dto.response.GeneratedTokenDto;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -22,7 +21,8 @@ import java.util.Date;
 public class JwtUtil implements InitializingBean {
 
     private final JwtProperties jwtProperties;
-//    private final RefreshTokenService tokenService;
+
+    private static final String PREFIX = "Bearer ";
 
     private Key signingKey;
 
@@ -39,8 +39,6 @@ public class JwtUtil implements InitializingBean {
         String refreshToken = generateRefreshToken(email, role);
         String accessToken = generateAccessToken(email, role);
 
-        // 토큰을 Redis에 저장한다.
-//        tokenService.saveTokenInfo(email, refreshToken, accessToken);
         return new GeneratedTokenDto(accessToken, refreshToken);
     }
 
@@ -69,6 +67,7 @@ public class JwtUtil implements InitializingBean {
 
     public String generateAccessToken(String email, String role) {
         long tokenPeriod = 1000L * 60L * 30L; // 30분
+//        long tokenPeriod = 1000L * 2L; // 2초
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
 
@@ -89,33 +88,42 @@ public class JwtUtil implements InitializingBean {
 
     public boolean verifyToken(String token) {
         try {
+            String parseToken = token.substring(PREFIX.length());
+            log.info("parseToken = {}", parseToken);
+
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(signingKey)  // 비밀키를 설정하여 파싱한다.
-                    .build().parseClaimsJws(token); // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
+                    .build().parseClaimsJws(parseToken); // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
+            log.info("parse claims = {}", claims);
             // 토큰의 만료 시간과 현재 시간 비교
             return claims.getBody()
                     .getExpiration()
                     .after(new Date()); // 만료 시간이 현재 시간 이후인지 확인하여 유효성 검사 결과를 반환
         } catch (Exception e) {
+            log.warn("token error = {}", e.getMessage());
             return false;
         }
     }
 
     // 토큰에서 Email을 추출한다.
     public String getEmail(String token) {
+        String parseToken = token.substring(PREFIX.length());
+        log.info("parseToken = {}", parseToken);
         return Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()
-                .parseClaimsJws(token)
+                .parseClaimsJws(parseToken)
                 .getBody()
                 .getSubject();
     }
 
     // 토큰에서 ROLE(권한)만 추출한다.
     public String getRole(String token) {
+        String parseToken = token.substring(PREFIX.length());
+        log.info("parseToken = {}", parseToken);
         return Jwts.parserBuilder().setSigningKey(signingKey)
                 .build()
-                .parseClaimsJws(token)
+                .parseClaimsJws(parseToken)
                 .getBody()
                 .get("role", String.class);
     }

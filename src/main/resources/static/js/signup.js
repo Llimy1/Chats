@@ -133,9 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 email: formData.get('email'),
                 password: formData.get('password'),
                 phoneNumber: formData.get('phoneNumber'),
-                postCode: formData.get('postCode'),
-                mainAddress: formData.get('address'),
-                detailAddress: formData.get('detailAddress')
             };
 
             // 회원가입 요청
