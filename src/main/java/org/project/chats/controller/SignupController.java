@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.dto.common.CommonResponseDto;
 import org.project.chats.dto.request.SignupRequestDto;
+import org.project.chats.dto.request.SocialLoginRequestDto;
 import org.project.chats.service.CommonService;
 import org.project.chats.service.SignupService;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.project.chats.type.SuccessMessage.CHECK_EMAIL_SUCCESS;
 import static org.project.chats.type.SuccessMessage.CHECK_NICKNAME_SUCCESS;
 import static org.project.chats.type.SuccessMessage.SIGNUP_SUCCESS;
+import static org.project.chats.type.SuccessMessage.SOCIAL_LOGIN_SIGNUP_SUCCESS;
 
 @Slf4j
 @RestController
@@ -35,6 +37,16 @@ public class SignupController {
         CommonResponseDto<Object> commonResponse =
                 commonService.successResponse(SIGNUP_SUCCESS.getDescription(), userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(commonResponse);
+    }
+
+    @PostMapping("/signup/social")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> socialSignup(@RequestBody SocialLoginRequestDto socialLoginRequestDto) {
+        log.debug("소셜 로그인 - 회원가입 API 호출");
+        Long userId = signupService.socialLogin(socialLoginRequestDto);
+        CommonResponseDto<Object> commonResponseDto =
+                commonService.successResponse(SOCIAL_LOGIN_SIGNUP_SUCCESS.getDescription(), userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commonResponseDto);
     }
 
     @GetMapping("/check/nickname")

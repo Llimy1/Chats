@@ -44,9 +44,6 @@ class LoginServiceTest {
     private AuthenticationManager authenticationManager;
 
     @Mock
-    private RefreshTokenService refreshTokenService;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks

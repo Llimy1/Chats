@@ -4,18 +4,18 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class SignupRequestDto {
+public class SocialLoginRequestDto {
 
     private String nickname;
     private String email;
-    private String password;
     private String phoneNumber;
+    private String provider;
 
     @Builder
-    public SignupRequestDto(String nickname, String email, String password, String phoneNumber) {
+    public SocialLoginRequestDto(String nickname, String email, String phoneNumber, String provider) {
         this.nickname = nickname;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
+        this.provider = provider;
     }
 }

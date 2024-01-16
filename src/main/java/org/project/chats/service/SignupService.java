@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.domain.User;
 import org.project.chats.dto.request.SignupRequestDto;
+import org.project.chats.dto.request.SocialLoginRequestDto;
 import org.project.chats.exception.Duplication;
 import org.project.chats.repository.UserRepository;
 import org.project.chats.type.ErrorMessage;
@@ -21,13 +22,27 @@ public class SignupService {
 
     @Transactional
     public Long signup(SignupRequestDto signupRequestDto) {
-        User user = User.createUser(signupRequestDto.getNickname(), signupRequestDto.getEmail(),
+        User user = User.createUser(
+                signupRequestDto.getNickname(), signupRequestDto.getEmail(),
                 signupRequestDto.getPassword(), signupRequestDto.getPhoneNumber());
         user.passwordEncoder(passwordEncoder);
 
         User userSave = userRepository.save(user);
 
         log.debug("회원가입 성공");
+
+        return userSave.getId();
+    }
+
+    @Transactional
+    public Long socialLogin(SocialLoginRequestDto socialLoginRequestDto) {
+        User user = User.createSocialUser(
+                socialLoginRequestDto.getNickname(), socialLoginRequestDto.getEmail(),
+                socialLoginRequestDto.getPhoneNumber(), socialLoginRequestDto.getProvider());
+
+        User userSave = userRepository.save(user);
+
+        log.debug("소셜 로그인 - 회원가입 성공");
 
         return userSave.getId();
     }

@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum SuccessMessage {
 
     SIGNUP_SUCCESS("회원가입에 성공 했습니다."),
+    SOCIAL_LOGIN_SIGNUP_SUCCESS("소셜 로그인 - 회원가입에 성공 했습니다."),
     LOGIN_SUCCESS("로그인에 성공 했습니다."),
     LOGOUT_SUCCESS("로그아웃에 성공 했습니다."),
     TOKEN_REISSUE_SUCCESS("토큰 재발급에 성공 했습니다."),

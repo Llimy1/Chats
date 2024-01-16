@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 - Chats</title>
+    <title>ADD INFO - Chats</title>
     <link rel="stylesheet" href="/css/signupPage.css">
 </head>
 <body>
 <div class="signup-container">
-    <h1 class="signup-title">회원가입</h1>
+    <h1 class="signup-title">추가 정보</h1>
     <form class="signup-form" id="signupForm">
         <!-- 닉네임 입력 필드와 중복 확인 버튼 -->
         <div class="form-row">
@@ -18,27 +18,7 @@
         <!-- 이메일 입력 필드와 중복 확인 버튼 -->
         <div class="form-row">
             <input type="email" id="email" name="email" placeholder="이메일" required>
-            <button type="button" class="check-button email">중복 확인</button>
         </div>
-        <!-- 비밀번호 입력 필드 -->
-        <div class="form-row password-row">
-            <input type="password" id="password" name="password" placeholder="비밀번호" required oninput="checkPasswordRequirements()">
-        </div>
-        <!-- 비밀번호 요구 사항 -->
-        <div class="password-requirements">
-            <ul id="password-criteria">
-                <li id="uppercase">대문자 포함</li>
-                <li id="numbers">숫자 포함</li>
-                <li id="special-characters">특수문자 포함</li>
-                <li id="min-characters">8~20자 이내</li>
-            </ul>
-        </div>
-        <!-- 비밀번호 확인 입력 필드 -->
-        <div class="form-row password-row">
-            <input type="password" id="password-confirm" placeholder="비밀번호 확인" required oninput="checkPasswordMatch()">
-        </div>
-        <!-- 비밀번호 일치 여부 메시지 -->
-        <div id="password-match-message"></div>
         <!-- 전화번호 입력 필드 -->
         <div class="form-row">
             <input type="tel" id="phone" name="phoneNumber" placeholder="전화번호" required
@@ -50,6 +30,6 @@
         </div>
     </form>
 </div>
-<script src="/js/signup.js"></script>
+<script src="/js/addInfo.js"></script>
 </body>
 </html>
