@@ -11,7 +11,8 @@ public enum SuccessMessage {
     LOGOUT_SUCCESS("로그아웃에 성공 했습니다."),
     TOKEN_REISSUE_SUCCESS("토큰 재발급에 성공 했습니다."),
     CHECK_NICKNAME_SUCCESS("사용 가능한 닉네임 입니다."),
-    CHECK_EMAIL_SUCCESS("사용 가능한 이메일 입니다.");
+    CHECK_EMAIL_SUCCESS("사용 가능한 이메일 입니다."),
+    CHAT_ROOM_CREATE_SUCCESS("채팅방 개설에 성공 했습니다.");
 
     private final String description;
 
