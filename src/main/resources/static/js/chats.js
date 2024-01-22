@@ -3,12 +3,12 @@ const modal = document.getElementById('myModal');
 const btn = document.querySelector('.create-room'); // .getElementsByClassName 대신 .querySelector 사용
 const span = document.querySelector('.close'); // .getElementsByClassName 대신 .querySelector 사용
 
-// 채팅방을 클릭할 때 실행될 함수
 function onRoomClick(roomName) {
     fetch(`/chat/${encodeURIComponent(roomName)}`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization' : localStorage.getItem("accessToken")
         },
     })
         .then(response => {
@@ -18,13 +18,18 @@ function onRoomClick(roomName) {
             throw new Error('응답을 받는 데 실패했습니다.');
         })
         .then(data => {
-            const roomId = data.data;
-            window.location.href = `/html/chat.html?roomId=${encodeURIComponent(roomId)}`;
+            const roomInfoAndUserInfo = data.data;
+            const roomId = roomInfoAndUserInfo.roomId;
+            const roomName = roomInfoAndUserInfo.roomName;
+            const userName = roomInfoAndUserInfo.userName;
+            // 쿼리 매개변수로 roomId, roomName, userName을 chat.html에 전달
+            window.location.href = `/html/chat.html?roomId=${encodeURIComponent(roomId)}&roomName=${encodeURIComponent(roomName)}&userName=${encodeURIComponent(userName)}`;
         })
         .catch(error => {
             console.error('채팅방 ID 조회 중 오류 발생:', error);
         });
 }
+// 채팅방을 클릭할 때 실행될 함수
 
 btn.onclick = function() {
     modal.style.display = "block";
