@@ -28,4 +28,12 @@ public class StompSocketController {
                 chatMessageDto);
     }
 
+    @MessageMapping("/chat/quit")
+    public void chatQuitMessage(ChatMessageDto chatMessageDto) {
+        chatMessageDto.quitMessage();
+        log.info("chat message = {}", chatMessageDto.getMessage());
+        simpMessagingTemplate.convertAndSend("/sub/chat/" + chatMessageDto.getRoomId(),
+                chatMessageDto);
+    }
+
 }

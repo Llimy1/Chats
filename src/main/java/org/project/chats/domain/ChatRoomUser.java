@@ -7,42 +7,38 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ChatRoom extends BaseTimeEntity {
+public class ChatRoomUser extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String roomId;
-    private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
+
     @Builder
-    public ChatRoom(String roomId, String name, User user) {
-        this.roomId = roomId;
-        this.name = name;
+    public ChatRoomUser(User user, ChatRoom chatRoom) {
         this.user = user;
+        this.chatRoom = chatRoom;
     }
 
-    public static ChatRoom createChatRoom(String name, User user) {
-        return ChatRoom.builder()
-                .roomId(UUID.randomUUID().toString())
-                .name(name)
+    public static ChatRoomUser createChatRoomUser(User user, ChatRoom chatRoom) {
+        return ChatRoomUser.builder()
                 .user(user)
+                .chatRoom(chatRoom)
                 .build();
     }
 }

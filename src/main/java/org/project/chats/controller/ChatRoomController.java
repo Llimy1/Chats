@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.dto.common.CommonResponseDto;
 import org.project.chats.dto.request.ChatRoomRequestDto;
+import org.project.chats.dto.response.ChatRoomInfoAndUserInfoResponseDto;
 import org.project.chats.service.ChatRoomService;
 import org.project.chats.service.CommonService;
 import org.project.chats.type.SuccessMessage;
@@ -52,14 +53,17 @@ public class ChatRoomController {
         return ResponseEntity.status(HttpStatus.OK).body(commonResponseDto);
     }
 
-    @GetMapping("/chat/{roomName}")
+    @PostMapping("/chat/{roomName}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> selectChatRoomId(@PathVariable String roomName) {
-        log.info("채팅방 아이디 반환 API 호출");
-        String roomId = chatRoomService.chatRoomId(roomName);
+    public ResponseEntity<Object> selectChatRoomInfoAndUserInfo(@RequestHeader("Authorization") String accessToken,
+                                                   @PathVariable String roomName) {
+        log.info("채팅방 및 유저 반환과 저장 API 호출");
+        ChatRoomInfoAndUserInfoResponseDto chatRoomInfoAndUserInfoResponseDto =
+                chatRoomService.chatRoomInfoAndUserInfo(accessToken, roomName);
         CommonResponseDto<Object> commonResponseDto =
-                commonService.successResponse(SuccessMessage.CHAT_ROOM_ID_SELECT_SUCCESS.getDescription(),
-                       roomId);
+                commonService.successResponse(
+                        SuccessMessage.CHAT_ROOM_ID_SELECT_SUCCESS.getDescription(),
+                       chatRoomInfoAndUserInfoResponseDto);
         return ResponseEntity.status(HttpStatus.OK).body(commonResponseDto);
     }
 }
