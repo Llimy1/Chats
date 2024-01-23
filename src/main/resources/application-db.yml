@@ -9,3 +9,5 @@ spring:
     redis:
       host: ${REDIS_USERNAME}
       port: ${REDIS_PORT}
+    mongodb:
+      uri: mongodb://${MONGO_USERNAME}:${MONGO_PORT}/${MONGO_DATABASE_NAME}

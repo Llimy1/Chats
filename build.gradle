@@ -37,6 +37,9 @@ dependencies {
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // Mongo
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
     // WebSocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
@@ -45,6 +48,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.webjars/stomp-websocket
     implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
