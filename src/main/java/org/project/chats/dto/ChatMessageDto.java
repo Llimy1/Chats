@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.project.chats.type.MessageType;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,9 +14,9 @@ public class ChatMessageDto {
     private String message;
 
     @Builder
-    public ChatMessageDto(String sender, String roomId, String message) {
-        this.sender = sender;
+    public ChatMessageDto(String roomId, String sender, String message) {
         this.roomId = roomId;
+        this.sender = sender;
         this.message = message;
     }
 

@@ -19,11 +19,13 @@ function onRoomClick(roomName) {
         })
         .then(data => {
             const roomInfoAndUserInfo = data.data;
+            const type = roomInfoAndUserInfo.type;
             const roomId = roomInfoAndUserInfo.roomId;
             const roomName = roomInfoAndUserInfo.roomName;
             const userName = roomInfoAndUserInfo.userName;
+
             // 쿼리 매개변수로 roomId, roomName, userName을 chat.html에 전달
-            window.location.href = `/html/chat.html?roomId=${encodeURIComponent(roomId)}&roomName=${encodeURIComponent(roomName)}&userName=${encodeURIComponent(userName)}`;
+            window.location.href = `/html/chat.html?type=${encodeURIComponent(type)}&roomId=${encodeURIComponent(roomId)}&roomName=${encodeURIComponent(roomName)}&userName=${encodeURIComponent(userName)}`;
         })
         .catch(error => {
             console.error('채팅방 ID 조회 중 오류 발생:', error);

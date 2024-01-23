@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
 
     const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type');
     const roomId = urlParams.get('roomId');
     const roomName = urlParams.get('roomName');
     const userName = urlParams.get('userName');
@@ -29,7 +30,9 @@ document.addEventListener("DOMContentLoaded", function(){
             msgArea.innerHTML += str;
         });
 
-        stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, sender: userName}));
+        if (type === 'enter') {
+            stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, sender: userName}));
+        }
     });
 
     const sendButton = document.getElementById("button-send");
@@ -42,9 +45,6 @@ document.addEventListener("DOMContentLoaded", function(){
     // 채팅방 목록으로 돌아가는 버튼 이벤트 리스너 추가
     document.getElementById("backToList").addEventListener("click", function() {
         stomp.send('/pub/chat/quit', {}, JSON.stringify({roomId: roomId, sender: userName}));
-        stomp.disconnect(function () {
-            console.log("STOMP Disconnected");
-            });
         window.location.href = "/html/chats.html";
     });
 });

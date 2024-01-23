@@ -13,6 +13,7 @@ import org.project.chats.repository.ChatRoomUserRepository;
 import org.project.chats.repository.UserRepository;
 import org.project.chats.service.jwt.JwtUtil;
 import org.project.chats.type.ErrorMessage;
+import org.project.chats.type.MessageType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,13 +69,16 @@ public class ChatRoomService {
         Long userId = user.getId();
 
         boolean userExist = chatRoomUserRepository.existsByUserId(userId);
+        String type = MessageType.REENTER.getDescription();;
 
         if (!userExist) {
             ChatRoomUser chatRoomUser = ChatRoomUser.createChatRoomUser(user, chatRoom);
             chatRoomUserRepository.save(chatRoomUser);
+            type = MessageType.ENTER.getDescription();
         }
 
         return ChatRoomInfoAndUserInfoResponseDto.builder()
+                .type(type)
                 .roomId(chatRoom.getRoomId())
                 .roomName(chatRoom.getName())
                 .userName(user.getNickname())
