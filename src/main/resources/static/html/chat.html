@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="/css/chatPage.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <!-- 채팅방 목록으로 돌아가는 버튼 추가 -->
+        <button id="backToList" class="back-btn">채팅방 목록으로</button>
+        <h1 id="roomName">Chat Room Name</h1>
+    </div>
+    <div class="chat-area">
+        <div id="msgArea" class="message-container"></div>
+        <div class="input-area">
+            <div class="input-group">
+                <input type="text" id="msg" class="form-control">
+                <button class="btn" id="button-send">전송</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/chat.js"></script>
+</body>
+
+</html>
