@@ -9,22 +9,32 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collation = "chatting")
+@Document(collection = "chatting")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
 
     @Id
+    private String id;
     private String roomId;
     private String sender;
     private String message;
-    private LocalDateTime sendData;
+    private LocalDateTime sendDate;
 
     @Builder
-    public ChatMessage(String roomId, String sender, String message, LocalDateTime sendData) {
+    public ChatMessage(String roomId, String sender, String message, LocalDateTime sendDate) {
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
-        this.sendData = sendData;
+        this.sendDate = sendDate;
+    }
+
+    public static ChatMessage createMessage(String roomId, String sender, String message, LocalDateTime sendDate) {
+        return ChatMessage.builder()
+                .roomId(roomId)
+                .sender(sender)
+                .message(message)
+                .sendDate(sendDate)
+                .build();
     }
 }

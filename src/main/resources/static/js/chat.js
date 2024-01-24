@@ -8,6 +8,24 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.getElementById("roomName").textContent = roomName;
 
+    // 저장된 메시지 불러오기
+    fetch(`/chat/${roomId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            const messages = data.data; // 메시지 배열
+            messages.forEach(msg => {
+                const str = `<div class='col-6'><div class='alert alert-info'><b>${msg.sender} : ${msg.message}</b> </div></div>`;
+                const msgArea = document.getElementById("msgArea");
+                msgArea.innerHTML += str;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
     const sockJs = new SockJS("/stomp/chat");
     const stomp = Stomp.over(sockJs);
 

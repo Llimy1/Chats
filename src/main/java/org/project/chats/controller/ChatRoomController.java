@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.dto.common.CommonResponseDto;
 import org.project.chats.dto.request.ChatRoomRequestDto;
+import org.project.chats.dto.response.ChatMessageResponseDto;
 import org.project.chats.dto.response.ChatRoomInfoAndUserInfoResponseDto;
+import org.project.chats.service.ChatMessageService;
 import org.project.chats.service.ChatRoomService;
 import org.project.chats.service.CommonService;
 import org.project.chats.type.SuccessMessage;
@@ -25,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatRoomController {
 
+    private final ChatMessageService chatMessageService;
     private final ChatRoomService chatRoomService;
     private final CommonService commonService;
 
@@ -64,6 +67,22 @@ public class ChatRoomController {
                 commonService.successResponse(
                         SuccessMessage.CHAT_ROOM_ID_SELECT_SUCCESS.getDescription(),
                        chatRoomInfoAndUserInfoResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponseDto);
+    }
+
+    @GetMapping("/chat/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> selectChatMessage(@PathVariable String roomId) {
+
+        log.info("저장된 채팅방 메세지 반환 API 호출");
+        List<ChatMessageResponseDto> result = chatMessageService.selectChatMessage(roomId).stream()
+                .map(ChatMessageResponseDto::new)
+                .toList();
+        CommonResponseDto<Object> commonResponseDto =
+                commonService.successResponse(
+                        SuccessMessage.CHAT_MESSAGE_SELECT_SUCCESS.getDescription(),
+                        result
+                );
         return ResponseEntity.status(HttpStatus.OK).body(commonResponseDto);
     }
 }

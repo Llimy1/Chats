@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -22,17 +23,19 @@ public class ChatMessageService {
     public void chatMessageSave(ChatMessageDto chatMessageDto) {
 
         log.info("채팅 저장 = {}", chatMessageDto.getMessage());
-        ChatMessage chatMessage = ChatMessage.builder()
-                .roomId(chatMessageDto.getRoomId())
-                .sender(chatMessageDto.getSender())
-                .message(chatMessageDto.getMessage())
-                .sendData(LocalDateTime.now())
-                .build();
+        ChatMessage chatMessage = ChatMessage.createMessage(
+                chatMessageDto.getRoomId(),
+                chatMessageDto.getSender(),
+                chatMessageDto.getMessage(),
+                LocalDateTime.now()
+        );
 
         chatMessageRepository.save(chatMessage);
     }
 
-    public void selectChatMessage(String roomId) {
+    public List<ChatMessage> selectChatMessage(String roomId) {
         log.info("저장된 채팅 가져오기 roomId = {}", roomId);
+
+        return chatMessageRepository.findAllByRoomId(roomId);
     }
 }
