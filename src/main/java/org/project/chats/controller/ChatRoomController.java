@@ -85,4 +85,18 @@ public class ChatRoomController {
                 );
         return ResponseEntity.status(HttpStatus.OK).body(commonResponseDto);
     }
+
+    @PostMapping("/chat/redis/{roomId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> deleteChatRoomRedisInfo(@RequestHeader("Authorization") String accessToken,
+                                                          @PathVariable String roomId) {
+        log.info("Redis Chat Room 정보 삭제 - 채팅방 떠남");
+        chatRoomService.chatRoomQuit(accessToken, roomId);
+        CommonResponseDto<Object> commonResponseDto =
+                commonService.successResponse(
+                        SuccessMessage.REDIS_CHAT_ROOM_INSERT_INFO_DELETE_SUCCESS.getDescription(),
+                        null
+                );
+        return ResponseEntity.status(HttpStatus.OK).body(commonResponseDto);
+    }
 }

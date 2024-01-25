@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
 
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type');
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const sockJs = new SockJS("/stomp/chat");
     const stomp = Stomp.over(sockJs);
 
-    stomp.connect({}, function (){
+    stomp.connect({}, function () {
         console.log("STOMP Connection")
         stomp.subscribe("/sub/chat/" + roomId, function (chat) {
             const content = JSON.parse(chat.body);
@@ -37,10 +37,9 @@ document.addEventListener("DOMContentLoaded", function(){
             const message = content.message; // 추가된 부분
             let str;
 
-            if(sender === userName){
+            if (sender === userName) {
                 str = "<div class='col-6'><div class='alert alert-secondary'><b>" + sender + " : " + message + "</b></div></div>";
-            }
-            else{
+            } else {
                 str = "<div class='col-6'><div class='alert alert-warning'><b>" + sender + " : " + message + "</b></div></div>";
             }
 
@@ -49,20 +48,44 @@ document.addEventListener("DOMContentLoaded", function(){
         });
 
         if (type === 'enter') {
-            stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, sender: userName}));
+            stomp.send('/pub/chat/enter', {}, JSON.stringify({
+                roomId: roomId,
+                sender: userName
+            }));
         }
     });
 
     const sendButton = document.getElementById("button-send");
-    sendButton.addEventListener("click", function(e){
+    sendButton.addEventListener("click", function (e) {
         const msgInput = document.getElementById("msg");
-        stomp.send('/pub/chat/send', {}, JSON.stringify({roomId: roomId, message: msgInput.value, sender: userName}));
+        stomp.send('/pub/chat/send', {}, JSON.stringify({
+            roomId: roomId,
+            message: msgInput.value,
+            sender: userName
+        }));
         msgInput.value = '';
     });
 
     // 채팅방 목록으로 돌아가는 버튼 이벤트 리스너 추가
-    document.getElementById("backToList").addEventListener("click", function() {
-        stomp.send('/pub/chat/quit', {}, JSON.stringify({roomId: roomId, sender: userName}));
-        window.location.href = "/html/chats.html";
-    });
+    document.getElementById("backToList").addEventListener("click", function () {
+        stomp.disconnect(function () {
+            console.log("STOMP DISCONNECT")
+            fetch(`/chat/redis/${roomId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem("accessToken")
+                },
+            }).then(response => response.json())
+                .then(data => {
+                    const success = data.status;
+                    stomp.send('/pub/chat/quit', {}, JSON.stringify({
+                        roomId: roomId,
+                        sender: userName
+                    }));
+                    window.location.href = "/html/chats.html";
+                    console.log(success);
+                });
+        }).catch(error => console.error('Error:', error));
+    })
 });
