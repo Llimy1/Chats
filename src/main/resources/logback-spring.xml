@@ -26,8 +26,9 @@
         </rollingPolicy>
     </appender>
 
+
     <springProfile name="local">
-        <logger name="org.project.shoppingmall" level="DEBUG"/>
+        <logger name="org.project.chats" level="DEBUG"/>
         <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>

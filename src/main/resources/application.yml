@@ -5,6 +5,7 @@ spring:
       - db
       - oauth
       - jwt
+      - sentry
 
   jpa:
     hibernate:

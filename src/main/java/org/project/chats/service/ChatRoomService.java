@@ -39,7 +39,7 @@ public class ChatRoomService {
     public String createChatRoom(String accessToken, ChatRoomRequestDto chatRoomRequestDto) {
         log.info("create chat room service");
 
-        String roomName = chatRoomRequestDto.getRoomName();
+        String roomName = chatRoomRequestDto.roomName();
         String email = jwtUtil.getEmail(accessToken);
 
         User user = userRepository.findByEmail(email)
