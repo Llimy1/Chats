@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const roomId = urlParams.get('roomId');
     const roomName = urlParams.get('roomName');
     const userName = urlParams.get('userName');
+    const headers = {Authorization: localStorage.getItem("accessToken")}
 
     document.getElementById("roomName").textContent = roomName;
 
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const sockJs = new SockJS("/stomp/chat");
     const stomp = Stomp.over(sockJs);
 
+
     stomp.connect({}, function () {
         console.log("STOMP Connection")
         stomp.subscribe("/sub/chat/" + roomId, function (chat) {
@@ -45,10 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const msgArea = document.getElementById("msgArea");
             msgArea.innerHTML += str;
-        });
+        }, headers);
 
         if (type === 'enter') {
-            stomp.send('/pub/chat/enter', {}, JSON.stringify({
+            stomp.send('/pub/chat/enter', headers, JSON.stringify({
                 roomId: roomId,
                 sender: userName
             }));
@@ -58,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendButton = document.getElementById("button-send");
     sendButton.addEventListener("click", function (e) {
         const msgInput = document.getElementById("msg");
-        stomp.send('/pub/chat/send', {}, JSON.stringify({
+        stomp.send('/pub/chat/send', headers, JSON.stringify({
             roomId: roomId,
             message: msgInput.value,
             sender: userName
@@ -79,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then(response => response.json())
                 .then(data => {
                     const success = data.status;
-                    stomp.send('/pub/chat/quit', {}, JSON.stringify({
+                    stomp.send('/pub/chat/quit', headers, JSON.stringify({
                         roomId: roomId,
                         sender: userName
                     }));
