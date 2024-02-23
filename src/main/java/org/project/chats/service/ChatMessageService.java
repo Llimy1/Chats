@@ -4,10 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.domain.ChatMessage;
 import org.project.chats.domain.ChatRoomRedis;
+import org.project.chats.domain.User;
 import org.project.chats.dto.ChatMessageDto;
+import org.project.chats.exception.NotFoundException;
 import org.project.chats.repository.ChatMessageRepository;
 import org.project.chats.repository.ChatRoomRedisRepository;
 import org.project.chats.repository.ChatRoomUserRepository;
+import org.project.chats.repository.UserRepository;
+import org.project.chats.type.ErrorMessage;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -27,11 +31,20 @@ public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRedisRepository chatRoomRedisRepository;
     private final ChatRoomUserRepository chatRoomUserRepository;
+    private final NotificationService notificationService;
+    private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
 
     @Transactional
     public void chatMessageSave(ChatMessageDto chatMessageDto) {
         boolean isRead = currentChatUserCount(chatMessageDto.getRoomId()) == allChatUserCount(chatMessageDto.getRoomId());
+
+        String sender = chatMessageDto.getSender();
+        User findUser = userRepository.findByNickname(sender)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
+
+        notificationService.chatNotification(chatMessageDto.getMessage(),
+                chatMessageDto.getRoomId(), false, findUser, findUser);
 
         log.info("채팅 저장 = {}", chatMessageDto.getMessage());
         ChatMessage chatMessage = ChatMessage.createMessage(

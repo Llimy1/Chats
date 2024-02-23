@@ -6,6 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const roomName = urlParams.get('roomName');
     const userName = urlParams.get('userName');
     const headers = {Authorization: localStorage.getItem("accessToken")}
+    const url = `/notification?userName=${encodeURIComponent(userName)}`;
+
+
+    const eventSource = new EventSource(url);
+
+    eventSource.addEventListener("sse", event => {
+        console.log(event);
+    })
+    eventSource.onmessage = function(event) {
+        // 서버로부터 메시지 수신 시 콘솔에 출력
+        console.log("Received message: ", event.data);
+    };
 
     document.getElementById("roomName").textContent = roomName;
 

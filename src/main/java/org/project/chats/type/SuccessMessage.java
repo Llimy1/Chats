@@ -16,7 +16,8 @@ public enum SuccessMessage {
     CHAT_ROOM_SELECT_SUCCESS("채팅방 조회에 성공 했습니다."),
     CHAT_ROOM_ID_SELECT_SUCCESS("채팅방 아이디 조회에 성공 했습니다."),
     CHAT_MESSAGE_SELECT_SUCCESS("저장된 채팅 조회에 성공 했습니다."),
-    REDIS_CHAT_ROOM_INSERT_INFO_DELETE_SUCCESS("레디스에 채팅방 정보 삭제에 성공 했습니다.");
+    REDIS_CHAT_ROOM_INSERT_INFO_DELETE_SUCCESS("레디스에 채팅방 정보 삭제에 성공 했습니다."),
+    CONNECT_SERVER_SIDE_EVENT_SUCCESS("SSE 연결에 성공 했습니다.");
 
     private final String description;
 
