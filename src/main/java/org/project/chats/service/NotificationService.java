@@ -87,6 +87,19 @@ public class NotificationService {
         }
     }
 
+    public void enterSend(SseEmitter sseEmitter, String emitterId) {
+        try {
+            sseEmitter.send(SseEmitter.event()
+                    .id(emitterId)
+                    .name("sse")
+                    .data("입장했습니다.")
+                    .build());
+        } catch (IOException e) {
+            emitterRepository.deleteById(emitterId);
+            log.error("SSE 연결 오류", e);
+        }
+    }
+
     @Transactional
     public void chatNotification(String content, String resource, Boolean isRead, User sender, User receiver) {
         log.info("chat notification");
@@ -107,6 +120,27 @@ public class NotificationService {
                     emitterRepository.saveEventCache(key, chatNotification);
                     // 데이터 전송
                     send(emitter, key, chatNotification);
+                    log.info("emitter = {}", emitter);
+                }
+        );
+
+    }
+
+    @Transactional
+    public void enter(User user, String content) {
+        // SseEmitter 캐시 조회를 위해 key의 prefix 생성
+        String id = String.valueOf(user.getId());
+        // 알림 저장
+        // 로그인 한 유저의 SseEmitter 모두 가져오기
+        Map<String, SseEmitter> sseEmitters = emitterRepository.findAllStartWithById(id);
+        log.info("Ssemitters = {}", sseEmitters);
+        sseEmitters.forEach(
+                (key, emitter) -> {
+                    log.info("key ={}, emitter = {}", key, emitter);
+                    // 데이터 캐시 저장(유실된 데이터 처리하기 위함)
+                    emitterRepository.saveEventCache(key, content);
+                    // 데이터 전송
+                    send(emitter, key, content);
                     log.info("emitter = {}", emitter);
                 }
         );

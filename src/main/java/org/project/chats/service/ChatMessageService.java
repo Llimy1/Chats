@@ -11,6 +11,7 @@ import org.project.chats.repository.ChatMessageRepository;
 import org.project.chats.repository.ChatRoomRedisRepository;
 import org.project.chats.repository.ChatRoomUserRepository;
 import org.project.chats.repository.UserRepository;
+import org.project.chats.service.jwt.JwtUtil;
 import org.project.chats.type.ErrorMessage;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,6 +36,7 @@ public class ChatMessageService {
     private final NotificationService notificationService;
     private final UserRepository userRepository;
     private final MongoTemplate mongoTemplate;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public void chatMessageSave(ChatMessageDto chatMessageDto) {
@@ -87,5 +90,13 @@ public class ChatMessageService {
         int allChatUserCount = chatRoomUserRepository.countChatRoomUserByRoomId(roomId);
         log.info("채팅방 총 유저 수 = {}", allChatUserCount);
         return allChatUserCount;
+    }
+
+    public void enter(String accessToken) {
+
+        Optional<User> byEmail = userRepository.findByEmail(jwtUtil.getEmail(accessToken));
+        User user = byEmail.get();
+
+        notificationService.enter(user, user.getNickname() + "님이 입장했습니다.");
     }
 }

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Room</title>
+    <title>Chat Room & WebRTC Example</title>
     <link rel="stylesheet" href="/css/chatPage.css">
+    <!-- 웹소켓 및 STOMP 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
-
 <body>
 <div class="container">
     <div class="header">
-        <!-- 채팅방 목록으로 돌아가는 버튼 추가 -->
         <button id="backToList" class="back-btn">채팅방 목록으로</button>
         <h1 id="roomName">Chat Room Name</h1>
     </div>
@@ -26,9 +26,16 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="/js/chat.js"></script>
-</body>
+<!-- WebRTC 섹션 -->
+<div>
+    <button type="button" id="enterRoomBtn">Start RTC</button>
+    <button type="button" id="startStreamBtn" style="display: none;">Start Streams</button>
+</div>
+<video id="localStream" autoplay playsinline controls style="display: none;"></video>
+<div id="remoteStreamDiv"></div>
 
+<!-- 스크립트 -->
+<script src="/js/chat.js"></script>
+<script src="/js/peerConfig.js"></script>
+</body>
 </html>

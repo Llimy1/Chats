@@ -3,6 +3,7 @@ package org.project.chats.config.websocket;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.chats.exception.JwtException;
+import org.project.chats.service.ChatMessageService;
 import org.project.chats.service.jwt.JwtUtil;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -21,6 +22,7 @@ import static org.project.chats.type.ErrorMessage.JWT_EXPIRATION;
 public class StompInterceptor implements ChannelInterceptor {
 
     private final JwtUtil jwtUtil;
+    private final ChatMessageService chatMessageService;
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -33,6 +35,7 @@ public class StompInterceptor implements ChannelInterceptor {
     private void handleMessage(StompCommand command, StompHeaderAccessor accessor) {
         switch (command) {
             case SUBSCRIBE:
+                chatMessageService.enter(getAccessToken(accessor));
             case SEND:
                 verifyToken(getAccessToken(accessor));
                 break;
