@@ -5,7 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.project.chats.domain.ChatMessage;
 import org.project.chats.domain.ChatRoomRedis;
 import org.project.chats.domain.User;
+import org.project.chats.dto.ChatMessageDeleteDto;
+import org.project.chats.dto.ChatMessageDeleteResponseDto;
 import org.project.chats.dto.ChatMessageDto;
+import org.project.chats.dto.ChatMessageUpdateDto;
+import org.project.chats.dto.response.MessageResponseDto;
 import org.project.chats.exception.NotFoundException;
 import org.project.chats.repository.ChatMessageRepository;
 import org.project.chats.repository.ChatRoomRedisRepository;
@@ -39,7 +43,7 @@ public class ChatMessageService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public void chatMessageSave(ChatMessageDto chatMessageDto) {
+    public MessageResponseDto chatMessageSave(ChatMessageDto chatMessageDto) {
         boolean isRead = currentChatUserCount(chatMessageDto.getRoomId()) == allChatUserCount(chatMessageDto.getRoomId());
 
         String sender = chatMessageDto.getSender();
@@ -58,7 +62,15 @@ public class ChatMessageService {
                 isRead
         );
 
-        chatMessageRepository.save(chatMessage);
+        ChatMessage saveMessage = chatMessageRepository.save(chatMessage);
+        return MessageResponseDto.builder()
+                .id(saveMessage.getId())
+                .sender(chatMessageDto.getSender())
+                .roomId(chatMessageDto.getRoomId())
+                .message(chatMessageDto.getMessage())
+                .isEdited(saveMessage.getIsEdited())
+                .isDeleted(saveMessage.getIsDeleted())
+                .build();
     }
 
     public List<ChatMessage> selectChatMessage(String roomId) {
@@ -98,5 +110,42 @@ public class ChatMessageService {
         User user = byEmail.get();
 
         notificationService.enter(user, user.getNickname() + "님이 입장했습니다.");
+    }
+
+    public void update(ChatMessageUpdateDto chatMessageUpdateDto) {
+        String id = chatMessageUpdateDto.getId();
+        String roomId = chatMessageUpdateDto.getRoomId();
+        String sender = chatMessageUpdateDto.getSender();
+        String message = chatMessageUpdateDto.getMessage();
+        Boolean isEdited = chatMessageUpdateDto.getIsEdited();
+        Query query = new Query(Criteria.where("id").is(id)
+                .and("roomId").is(roomId)
+                .and("sender").is(sender));
+        Update update = new Update().set("message", message).set("isEdited", isEdited);
+
+        mongoTemplate.updateMulti(query, update, ChatMessage.class);
+    }
+
+    public ChatMessageDeleteResponseDto deleteMessage(ChatMessageDeleteDto chatMessageDeleteDto) {
+        String id = chatMessageDeleteDto.getId();
+        String roomId = chatMessageDeleteDto.getRoomId();
+        String sender = chatMessageDeleteDto.getSender();
+        Boolean isDeleted = chatMessageDeleteDto.getIsDeleted();
+
+        String message = "삭제된 메세지입니다.";
+        Query query = new Query(Criteria.where("id").is(id)
+                .and("roomId").is(roomId)
+                .and("sender").is(sender));
+        Update update = new Update().set("message", message).set("isDeleted", isDeleted);
+
+        mongoTemplate.updateMulti(query, update, ChatMessage.class);
+
+        return ChatMessageDeleteResponseDto.builder()
+                .id(id)
+                .roomId(roomId)
+                .sender(sender)
+                .message(message)
+                .isDeleted(isDeleted)
+                .build();
     }
 }

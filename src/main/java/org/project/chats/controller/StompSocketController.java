@@ -2,7 +2,12 @@ package org.project.chats.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.project.chats.dto.ChatMessageDeleteDto;
+import org.project.chats.dto.ChatMessageDeleteResponseDto;
 import org.project.chats.dto.ChatMessageDto;
+import org.project.chats.dto.ChatMessageUpdateDto;
+import org.project.chats.dto.response.ChatMessageResponseDto;
+import org.project.chats.dto.response.MessageResponseDto;
 import org.project.chats.dto.rtc.AnswerDto;
 import org.project.chats.dto.rtc.IceCandidateDto;
 import org.project.chats.dto.rtc.OfferDto;
@@ -35,9 +40,25 @@ public class StompSocketController {
     @MessageMapping("/chat/send")
     public void chatSendMessage(ChatMessageDto chatMessageDto) {
         log.info("send message");
+        MessageResponseDto messageResponseDto = chatMessageService.chatMessageSave(chatMessageDto);
         simpMessagingTemplate.convertAndSend("/sub/chat/" + chatMessageDto.getRoomId(),
-                chatMessageDto);
-        chatMessageService.chatMessageSave(chatMessageDto);
+                messageResponseDto);
+    }
+
+    @MessageMapping("/chat/update")
+    public void chatUpdateMessage(ChatMessageUpdateDto chatMessageUpdateDto) {
+        log.info("update message");
+        chatMessageService.update(chatMessageUpdateDto);
+        simpMessagingTemplate.convertAndSend("/sub/chat/" + chatMessageUpdateDto.getRoomId(),
+                chatMessageUpdateDto);
+    }
+
+    @MessageMapping("/chat/delete")
+    public void chatDeletedMessage(ChatMessageDeleteDto chatMessageDeleteDto) {
+        log.info("delete message");
+        ChatMessageDeleteResponseDto chatMessageDeleteResponseDto = chatMessageService.deleteMessage(chatMessageDeleteDto);
+        simpMessagingTemplate.convertAndSend("/sub/chat/" + chatMessageDeleteDto.getRoomId(),
+                chatMessageDeleteResponseDto);
     }
 
     @MessageMapping("/chat/quit")
@@ -48,49 +69,6 @@ public class StompSocketController {
         simpMessagingTemplate.convertAndSend("/sub/chat/" + chatMessageDto.getRoomId(),
                 chatMessageDto);
     }
-
-    // RTC
-//    @MessageMapping("/rtc/peer/offer")
-//    public void rtcPeerOffer(OfferDto offerDto) {
-//        log.info("offer = " + offerDto.getOffer());
-//        simpMessagingTemplate.convertAndSend(
-//                "/sub/rtc/offer/"
-//                        + offerDto.getCamKey()
-//                        + "/" + offerDto.getRoomId(),
-//                offerDto.getOffer());
-//    }
-//
-//    @MessageMapping("/rtc/peer/icecandidate")
-//    public void rtcPeerIceCandidate(IceCandidateDto iceCandidateDto) {
-//        log.info("ice candidate = " + iceCandidateDto.getCandidate());
-//        simpMessagingTemplate.convertAndSend(
-//                "/sub/rtc/icecandidate/"
-//                        + iceCandidateDto.getCamKey()
-//                        + "/" + iceCandidateDto.getRoomId(),
-//                iceCandidateDto.getCandidate());
-//    }
-//
-//    @MessageMapping("/rtc/peer/answer")
-//    public void rtcPeerAnswer(AnswerDto answerDto) {
-//        log.info("answer = " + answerDto.getAnswer());
-//        simpMessagingTemplate.convertAndSend(
-//                "/sub/rtc/answer/"
-//                + answerDto.getCamKey()
-//                + "/" + answerDto.getAnswer());
-//    }
-//
-//    @MessageMapping("/rtc/call/key")
-//    public void rtcCamKey(String message) {
-//        log.info("key = " + message);
-//        simpMessagingTemplate.convertAndSend(
-//                "/sub/rtc/call/key", message);
-//    }
-//
-//    @MessageMapping("/rtc/send/key")
-//    public void rtcSendKey(String message) {
-//        simpMessagingTemplate.convertAndSend(
-//                "/sub/rtc/send/key", message);
-//    }
 
     //offer 정보를 주고 받기 위한 websocket
     //camKey : 각 요청하는 캠의 key , roomId : 룸 아이디

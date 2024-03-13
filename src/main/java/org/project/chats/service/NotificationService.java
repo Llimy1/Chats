@@ -21,7 +21,6 @@ import static org.project.chats.type.ErrorMessage.USER_NOT_FOUND;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
@@ -126,7 +125,6 @@ public class NotificationService {
 
     }
 
-    @Transactional
     public void enter(User user, String content) {
         // SseEmitter 캐시 조회를 위해 key의 prefix 생성
         String id = String.valueOf(user.getId());

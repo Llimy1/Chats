@@ -20,4 +20,6 @@ spring:
 logging:
   level:
     org.hibernate.type: trace                   # ???? ??? ????? ? ? ?? ?? ??
-    org.hibernate.type.descriptor.sql: trace    # sql? ? ?? Parameter? ???.
+    org.hibernate.type.descriptor.sql: trace
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari: TRACE

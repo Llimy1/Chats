@@ -22,14 +22,18 @@ public class ChatMessage {
     private String message;
     private LocalDateTime sendDate;
     private Boolean isRead;
+    private Boolean isEdited;
+    private Boolean isDeleted;
 
     @Builder
-    public ChatMessage(String roomId, String sender, String message, LocalDateTime sendDate, Boolean isRead) {
+    public ChatMessage(String roomId, String sender, String message, LocalDateTime sendDate, Boolean isRead, Boolean isEdited, Boolean isDeleted) {
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
         this.sendDate = sendDate;
         this.isRead = isRead;
+        this.isEdited = isEdited;
+        this.isDeleted = isDeleted;
     }
 
     public static ChatMessage createMessage(String roomId, String sender, String message, LocalDateTime sendDate, Boolean isRead) {
@@ -39,6 +43,8 @@ public class ChatMessage {
                 .message(message)
                 .sendDate(sendDate)
                 .isRead(isRead)
+                .isEdited(false)
+                .isDeleted(false)
                 .build();
     }
 }
